@@ -1,0 +1,47 @@
+{% extends "layout.html" %}
+
+{% block scripts %}
+   {{super()}}
+   <script type="text/javascript" src="{{url_for('static', filename='js/sjcl.js')}}"></script>
+   <script type="text/javascript">
+      function calculate_hash(username, password)
+      {
+         hash = sjcl.hash.sha256.hash("".concat(username, "++", password));
+         return sjcl.codec.hex.fromBits(hash).slice(0, 16);
+      };
+      function calculate_hash_and_submit(form_name, username_field_id, password_field_id) 
+      {
+         username = document.getElementsByName(username_field_id).value
+         password = document.getElementsByName(password_field_id).value
+            
+         hash = calculate_hash(username, password);
+
+         document.getElementsByName(password_field_id).value = hash
+
+         document.getElementsByName(form_name).submit()
+      };
+   </script>
+{% endblock scripts %}
+
+{% block content %}
+{{super()}}
+
+<div class="container">
+    <center>
+       <h1>Chat Service Login</h1>
+    </center>
+    <div class="container">                                                      
+		 {% from "_formhelpers.html" import render_field %}
+       <form id="{{form_name}}" method=post>
+			 <dl>
+				 {{ render_field(form.username) }}
+				 {{ render_field(form.password) }}
+			 </dl>
+          <p><input type=button value="Login" 
+               onclick="calculate_hash_and_submit({{form_name}}
+                                                  {{form.username.id}}, 
+                                                  {{form.password.id}})"/>
+		 </form>
+    </div>                                                                       
+</div>
+{% endblock %}

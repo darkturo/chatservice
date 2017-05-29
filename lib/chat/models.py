@@ -3,6 +3,9 @@ import hashlib
 from sqlalchemy import Column, Integer, String
 from chat.database import Base
 
+def calculate_hash(username, password):
+    data = "{u}++{p}".format(u=username, p=password)
+    return hashlib.sha256(data).hexdigest()[:16]
 
 class User(Base):
     __tablename__ = 'users'
@@ -14,7 +17,7 @@ class User(Base):
     def __init__(self, name=None, email=None, password=None):
         self.name = name
         self.email = email
-        self.password = hashlib.sha512(password).hexdigest()[:16]
+        self.password = calculate_hash(name, password)
 
     def __repr__(self):
         return '<User %r>' % (self.name)

@@ -1,9 +1,10 @@
-from flask import render_template, redirect, request
+from flask import render_template, redirect, url_for, request, flash
 from flask_bootstrap import Bootstrap
 
 from chat import app
 from chat.register import RegistrationForm
 from chat.database import init_db, db_session
+from chat.models import User
 
 import chat.navbar
 
@@ -21,15 +22,16 @@ def index():
 
 @app.route('/register', methods=['GET', 'POST'])
 def register():
-    register_form = RegistrationForm()
-    if request.method == 'POST' and register_form.validate():
-        user = User(form.username.data, form.email.data,
-                    form.password.data)
-        db_session.add(user)
-	db_session.commit()
-        flash('Thanks for registering')
-        return redirect(url_for('index'))
-    return render_template('register.html', form=register_form)
+    form = RegistrationForm(request.form)
+    if request.method == 'POST' and form.validate():
+            user = User(form.username.data, 
+                        form.email.data,
+                        form.password.data)
+            db_session.add(user)
+            db_session.commit()
+            flash('Thanks for registering')
+            return redirect(url_for('index'))
+    return render_template('register.html', form=form)
 
 
 @app.route('/about', methods=['GET'])

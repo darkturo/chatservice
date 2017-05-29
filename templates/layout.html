@@ -1,0 +1,24 @@
+{% extends "bootstrap/base.html" %}
+
+{% block styles %} 
+{{super()}}
+<link href="http://getbootstrap.com/examples/jumbotron-narrow/jumbotron-narrow.css" rel="stylesheet"/>
+<link href="http://getbootstrap.com/examples/sticky-footer/sticky-footer.css" rel="stylesheet"/>
+{% endblock %}
+
+{% block navbar %}
+<div class="header clearfix">
+   {{nav.mynavbar.render()}}
+</div>
+{% endblock %}
+
+{% block title %}{{page_title}}{% endblock %}
+
+{% block content %}
+<footer class="footer">
+   <div class="container">
+      <a rel="license" href="http://creativecommons.org/licenses/by-sa/4.0/"><img alt="Creative Commons License" style="border-width:0" src="https://i.creativecommons.org/l/by-sa/4.0/80x15.png" /></a><br />This work is licensed under a <a rel="license" href="http://creativecommons.org/licenses/by-sa/4.0/">Creative Commons Attribution-ShareAlike 4.0 International License</a>.
+   </div>
+</footer>
+{% endblock %}
+

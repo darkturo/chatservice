@@ -1,0 +1,31 @@
+{% extends "layout.html" %}
+
+{% block content %}
+{{super()}}
+
+<div class="container">
+   <div class="jumbotron">
+      <center>
+         <h1>Chat Service</h1>
+      </center>
+      <div align="justify">
+         <p>
+         Hey there, welcome to just another chat service. This is just an
+         exercise python project to play around with flask and twisted. Feel
+         free to wander around, register and use the chat on your own will.
+         </p>
+
+         <p>
+         To start, register (or login if you already have an account).
+         </p>
+      </div>
+
+      <center>
+      <div class="btn-group" role="group" aria-label="...">
+         <a class="btn btn-lg btn-success" href="/login" role="button">Login</a>
+         <a class="btn btn-lg btn-success" href="/register" role="button">Register</a>
+      </div>
+      </center>
+   </div>
+</div>
+{% endblock %}

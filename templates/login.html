@@ -11,14 +11,14 @@
       };
       function calculate_hash_and_submit(form_name, username_field_id, password_field_id) 
       {
-         username = document.getElementsByName(username_field_id).value
-         password = document.getElementsByName(password_field_id).value
+         username = document.getElementById(username_field_id).value
+         password = document.getElementById(password_field_id).value
             
          hash = calculate_hash(username, password);
 
-         document.getElementsByName(password_field_id).value = hash
+         document.getElementById(password_field_id).value = hash
 
-         document.getElementsByName(form_name).submit()
+         document.getElementById(form_name).submit()
       };
    </script>
 {% endblock scripts %}
@@ -37,10 +37,10 @@
 				 {{ render_field(form.username) }}
 				 {{ render_field(form.password) }}
 			 </dl>
-          <p><input type=button value="Login" 
-               onclick="calculate_hash_and_submit({{form_name}}
-                                                  {{form.username.id}}, 
-                                                  {{form.password.id}})"/>
+          <p><input type=submit value="Login" 
+               onclick="calculate_hash_and_submit('{{form_name}}',
+                                                  '{{form.username.id}}', 
+                                                  '{{form.password.id}}')"/>
 		 </form>
     </div>                                                                       
 </div>

@@ -7,6 +7,7 @@ def calculate_hash(username, password):
     data = "{u}++{p}".format(u=username, p=password)
     return hashlib.sha256(data).hexdigest()[:16]
 
+
 class User(Base):
     __tablename__ = 'users'
     id = Column(Integer, primary_key=True)

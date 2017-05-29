@@ -38,10 +38,10 @@ def register():
 def login():
     form = LoginForm(request.form)
     if request.method == 'POST' and form.validate():
-        user = User.query.filter_by(username=form.username.data).first()
-        if user.password == form.username.data:
+        user = User.query.filter_by(name=form.username.data).first()
+        if user.password == form.password.data:
             return redirect(url_for('index'))
-    return render_template('login.html', form=form)
+    return render_template('login.html', form=form, form_name="login_form")
 
 
 @app.route('/about', methods=['GET'])

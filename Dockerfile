@@ -17,3 +17,5 @@ RUN apt-get install -y pandoc
 RUN apt-get install -y texlive-latex-base
 
 RUN apt-get install -y texlive-latex-recommended
+
+RUN apt-get install -y texlive-fonts-recommended

@@ -1,0 +1,20 @@
+{% extends "layout.html" %}
+
+{% block content %}
+{{super()}}
+
+<div class="container">
+    <center>
+       <h1>Chat Service: Create Chat Group</h1>
+    </center>
+    <div class="container">                                                      
+		 {% from "_formhelpers.html" import render_field %}
+       <form id="{{form_name}}" method=post>
+			 <dl>
+				 {{ render_field(form.groupname) }}
+			 </dl>
+          <p><input type=submit value="Create Group" />
+		 </form>
+    </div>                                                                       
+</div>
+{% endblock %}

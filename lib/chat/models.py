@@ -22,3 +22,18 @@ class User(Base):
 
     def __repr__(self):
         return '<User %r>' % (self.name)
+
+class ChatGroup(Base):
+    __tablename__ = 'chat_group'
+    id = Column(Integer, primary_key=True)
+    name = Column(String(50), unique=True)
+    public_key = Column(String(4000))
+    private_key = Column(String(1000))
+
+    def __init__(self, name=None, public=None, password=None):
+        self.name = name
+        self.private_key = private_key
+        self.public_key = public_key
+
+    def __repr__(self):
+        return '<User %r>' % (self.name)

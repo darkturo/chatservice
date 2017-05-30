@@ -76,17 +76,45 @@ def about():
 
 @app.route('/chat', methods=['GET'])
 @app.route('/chat/<chat_room_id>', methods=['GET'])
-def group_chat(chat_room_id):
-    pass
+def group_chat(chat_room_id=None):
+    if not g.current_chat_group and not chat_room_id:
+        chat_room_id = create_chat_room()
+
+    if not chat_room_id:
+        chat_room_id = g.current_chat_group
+
+    chat_group = ChatGroup.query.filter_by(groupid=chat_room_id).first_or_404()
+    g.current_chat_group = chat_room_id
+
+    #chat = Chat.query.filter_by(chid=chat_room_id).first()
+    return render_template('chat.html', name=chat_group.name, 
+                           public_key=chat_group.public_key,
+                           chat_id=chat_room_id)
+
+
+@app.route('/create_chat_room', methods=['GET'])
+def create_chat_room():
+    form = ChatGroupCreationForm(request.form)
+    if request.method == 'POST' and form.validate():
+        chatgroupn = ChatGroup(form.groupname.data)
+        db_session.add(chatgroup)
+        db_session.commit()
+        return redirect(url_for('/chat/{cid}'.format(cid=chatgroup.id)))
+    return render_template('create_chat_room.html', form=form)
+
+
+@app.route('/chat', methods=['GET'])
+
 
 @app.route('/dm', methods=['GET'])
 @app.route('/dm/<target_user_id>', methods=['GET'])
-def direct_message(target_user_id):
+def direct_message(target_user_id=None):
     pass
+
 
 @app.route('/profile', methods=['GET', 'POST'])
 @app.route('/profile/<user_id>', methods=['GET', 'POST'])
-def profile(user_id):
+def profile(user_id=None):
     pass
 
 

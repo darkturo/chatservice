@@ -1,0 +1,43 @@
+{% extends "layout.html" %}
+
+{% block scripts %}
+   {{super()}}
+   <script type="text/javascript" src="{{url_for('static', filename='js/sjcl.js')}}"></script>
+   <script type="text/javascript">
+      function calculate_hash(username, password)
+      {
+         hash = sjcl.hash.sha256.hash("".concat(username, "++", password));
+         return sjcl.codec.hex.fromBits(hash).slice(0, 16);
+      };
+      function send(message_id) {
+         text = document.getElementById(message_id).value
+
+         // send encrypted with ajax  to address x
+
+
+      }
+   </script>
+{% endblock scripts %}
+
+{% block content %}
+{{super()}}
+
+<div class="container">
+    <center>
+       <h1>Chat Service: Room {{name}}</h1>
+    </center>
+    <div class="container">                                                      
+		 {% from "_formhelpers.html" import render_field %}
+       <form id="{{form_name}}" method=post>
+			 <dl>
+				 {{ render_field(form.conversation) }}
+				 {{ render_field(form.message) }}
+			 </dl>
+          <p>
+          <input type=button value="Login" 
+               onclick="send('{{form.message.id}}')"/>
+          </p>
+		 </form>
+    </div>                                                                       
+</div>
+{% endblock %}

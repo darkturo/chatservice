@@ -1,4 +1,4 @@
-from flask import render_template, redirect, url_for, request, flash
+from flask import render_template, redirect, url_for, request, flash, session, g
 from flask_bootstrap import Bootstrap
 
 from chat import app
@@ -17,6 +17,8 @@ WebAppName = "ChatRoom"
 
 @app.route('/', methods=['GET'])
 def index():
+    if g.user: 
+        print "Entro %s" % g.user.name
     return render_template('main.html')
 
 
@@ -39,14 +41,42 @@ def login():
     form = LoginForm(request.form)
     if request.method == 'POST' and form.validate():
         user = User.query.filter_by(name=form.username.data).first()
-        if user.password == form.password.data:
-            return redirect(url_for('index'))
+        if user:
+            if user.password == form.password.data:
+                user.logged_in = True
+                db_session.add(user)
+                db_session.commit()
+                session['user_id'] = user.name
+                return redirect(url_for('index'))
     return render_template('login.html', form=form, form_name="login_form")
+
+
+@app.route('/logout', methods=['GET'])
+def logout():
+    if 'user_id' in session:
+        g.user.logged_in = False
+        db_session.add(g.user)
+        db_session.commit()
+        g.user = None
+        del session['user_id']
+    return redirect(url_for('index'))
 
 
 @app.route('/about', methods=['GET'])
 def about():
     return render_template('about.html')
+
+
+# FIXME: I have to move this code elsewhere. Perhaps reorganise the lib better
+#        using the model/view/controller concept.
+@app.before_request
+def load_user():
+    if 'user_id' in session:
+        user = User.query.filter_by(name=session["user_id"]).first()
+    else:
+        user = None
+
+    g.user = user
 
 
 @app.teardown_appcontext

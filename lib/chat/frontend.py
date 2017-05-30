@@ -1,5 +1,8 @@
 from flask import render_template, redirect, url_for, request, flash, session, g
 from flask_bootstrap import Bootstrap
+from flask_nav import Nav
+#from flask_nav.elements import Navbar, View, Subgroup
+from flask_nav.elements import *
 
 from chat import app
 from chat.forms import RegistrationForm, LoginForm
@@ -9,15 +12,19 @@ from chat.models import User
 import chat.navbar
 
 
+WebAppName = "Chat Service"
 
+
+# Flask plugins initialization
 bootstrap = Bootstrap(app)
+nav = Nav()
+nav.init_app(app)
 
-WebAppName = "ChatRoom"
 
-
+# WebApplication frontend
 @app.route('/', methods=['GET'])
 def index():
-    if g.user: 
+    if g.user:
         print "Entro %s" % g.user.name
     return render_template('main.html')
 
@@ -26,7 +33,7 @@ def index():
 def register():
     form = RegistrationForm(request.form)
     if request.method == 'POST' and form.validate():
-        user = User(form.username.data, 
+        user = User(form.username.data,
                      form.email.data,
                      form.password.data)
         db_session.add(user)
@@ -67,8 +74,46 @@ def about():
     return render_template('about.html')
 
 
+@app.route('/chat', methods=['GET'])
+@app.route('/chat/<chat_room_id>', methods=['GET'])
+def group_chat(chat_room_id):
+    pass
+
+@app.route('/dm', methods=['GET'])
+@app.route('/dm/<target_user_id>', methods=['GET'])
+def direct_message(target_user_id):
+    pass
+
+@app.route('/profile', methods=['GET', 'POST'])
+@app.route('/profile/<user_id>', methods=['GET', 'POST'])
+def profile(user_id):
+    pass
+
+
+# Other stuff
 # FIXME: I have to move this code elsewhere. Perhaps reorganise the lib better
 #        using the model/view/controller concept.
+#        Somethings though seem difficult to move away...
+
+@nav.navigation()
+def mynavbar():
+    views = []
+    if 'user_id' in session:
+        views = [ View('Group Chat', 'group_chat'),
+                  View('Direct Message', 'direct_message'),
+                  View('About', 'about'),
+                  Subgroup(session['user_id'],
+                         View('Profile', 'profile'),
+                         View('Logout', 'logout')
+                  ) ]
+    else:
+        views = [ View('Start', 'index'), View('Login', 'login'),
+                  View('Register', 'register'), View('About', 'about') ]
+
+    return Navbar(WebAppName, *views)
+
+
+
 @app.before_request
 def load_user():
     if 'user_id' in session:
@@ -85,6 +130,3 @@ def shutdown_session(exception=None):
 
 
 chat.database.init_db()
-chat.navbar.register(app, WebAppName, 
-                         {'Start': 'index', 
-                          'About': 'about'})   

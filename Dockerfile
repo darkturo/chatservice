@@ -11,3 +11,9 @@ RUN apt-get install -y python-nose
 RUN pip install jsonschema 
 
 RUN pip install flask flask-bootstrap flask-wtf flask-nav Flask-SQLAlchemy
+
+RUN apt-get install -y pandoc
+
+RUN apt-get install -y texlive-latex-base
+
+RUN apt-get install -y texlive-latex-recommended

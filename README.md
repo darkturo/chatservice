@@ -272,6 +272,23 @@ It has served to learn more about the possibilities of flask and to check the
 viability of handling certain aspects of the application in JavaScript (i.e.
 encryption, hashing, etc).
 
+### Runnig the Prototype
+To run the prototype, it is possible to use the Dockerfile provided in the repo. 
+To make it easier you can just use the make to build and run or just to build
+the container:
+
+```bash
+make 
+```
+
+This will start the web application listening at :8080 port. 
+
+You can use a regular browser to access the application.
+
+#### Makefile sugar
+The makefile contain other series of rules that can help to clean the repo,
+wipe the db, or generate a pdf file from this README.md
+
 ## Future Steps
 The application should evolve towards the architecture described above. To
 achieve this and distribute this work among different members of a virtual

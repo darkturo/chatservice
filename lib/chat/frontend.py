@@ -9,7 +9,7 @@ from chat.forms import RegistrationForm, LoginForm
 from chat.database import init_db, db_session
 from chat.models import User
 
-import chat.navbar
+import chat
 
 
 WebAppName = "Chat Service"

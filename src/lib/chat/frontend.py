@@ -6,7 +6,7 @@ from flask_nav.elements import *
 
 from chat import app
 from chat.forms import RegistrationForm, LoginForm, ChatGroupCreationForm
-from model.model import User, ChatGroup, db
+from model import User, ChatGroup, db
 
 import chat
 

@@ -1,28 +1,13 @@
 from flask import render_template, redirect, url_for, request, flash, session, g
-from flask_bootstrap import Bootstrap
-from flask_nav import Nav
 #from flask_nav.elements import Navbar, View, Subgroup
 from flask_nav.elements import *
 
-from chat import app
-from chat.forms import RegistrationForm, LoginForm, ChatGroupCreationForm
-from model import User, ChatGroup, db
-
-import chat
+from controller import *
+from view.forms import *
+from model import *
 
 
 WebAppName = "Chat Service"
-app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:////tmp/chat.test.db',
-# app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql://testuser:xxxx@localhost:3306/testdb'
-# app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql://testuser:xxxx@localhost:5432/testdb'
-app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
-
-
-# Flask plugins initialization
-bootstrap = Bootstrap(app)
-nav = Nav()
-nav.init_app(app)
-db.init_app(app)
 
 
 # WebApplication frontend

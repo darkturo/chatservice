@@ -1,6 +1,4 @@
-import chat 
-import chat.frontend
-import chat.backend
+import controller
 
 if __name__ == '__main__':
-    chat.app.run(host='0.0.0.0', port=8080)
+    controller.app.run(host='0.0.0.0', port=8080)

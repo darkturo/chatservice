@@ -6,7 +6,7 @@ import os.path
 
 project_base_dir = os.path.normpath( os.path.join(__file__, "..", ".." ) )
 template_folder = os.path.join(project_base_dir, "view", "templates")
-static_folder = os.path.join(project_base_dir, "static")
+static_folder = os.path.join(project_base_dir, "view", "static")
 
 
 app = Flask(__name__, template_folder=template_folder,

@@ -14,7 +14,7 @@ app = Flask(__name__, template_folder=template_folder,
 
 # Flask WebApp Configuration
 app.secret_key = 'bd7a1eec3209ae69dd52df7c2c2dbe5700a67ad5'
-app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:////tmp/chat.test.db',
+app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:////chat.test.db'
 # app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql://testuser:xxxx@localhost:3306/testdb'
 # app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql://testuser:xxxx@localhost:5432/testdb'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
@@ -26,6 +26,10 @@ nav = Nav()
 nav.init_app(app)
 db.init_app(app)
 
+
+# Create the database tables and records inside a temporary test context
+with app.test_request_context():
+    load_db(db)
 
 # Import by default
 __all__ = ['app', 'nav']
